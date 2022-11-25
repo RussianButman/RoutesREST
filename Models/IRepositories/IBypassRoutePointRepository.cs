@@ -1,0 +1,13 @@
+﻿using RoutesREST.Models.Entities;
+using RoutesREST.Models.HelperEntities;
+
+namespace RoutesREST.Models.IRepositories
+{
+    public interface IBypassRoutePointRepository
+    {
+        List<BypassRoutePoint> GetBypassRoutePoints();
+        BypassRoutePoint GetWalkRoutePointById(int id);
+        List<BypassRoutePoint> GetWalkRoutePointsByRegion(LatLongPoint[] latLongPoints);
+        void AddBypassRoutePoint(BypassRoutePoint bypassRoutePoint);
+    }
+}
