@@ -23,19 +23,44 @@ namespace RoutesREST.Models.TestRepositories
                     },
                     Location = new()
                     {
-                        Id = 1,
+                        Id = new Guid(),
                         Latitude = 82.000001,
                         Longitude = 125.000001
                     },
-                    BypassDatetimes = new()
+                BypassDatetimes = new()
+                {
+                    new BypassDateTime()
                     {
-                        new(2022, 11, 25, 10, 43, 30),
-                        new(2022, 11, 25, 10, 43, 31),
-                        new(2022, 11, 25, 10, 43, 32),
-                        new(2022, 11, 25, 10, 43, 33),
-                        new(2022, 11, 25, 10, 43, 34)
+                        Id = new Guid(),
+                        DateTime = new(2022, 11, 25, 10, 45, 30),
                     },
-                    BypassRoutePoints = _bypassRoutePointRepository.GetBypassRoutePoints()
+                    new BypassDateTime()
+                    {
+                        Id = new Guid(),
+                        DateTime = new(2022, 11, 25, 10, 45, 31),
+                    },
+                    new BypassDateTime()
+                    {
+                        Id = new Guid(),
+                        DateTime = new(2022, 11, 25, 10, 45, 32),
+                    },
+                    new BypassDateTime()
+                    {
+                        Id = new Guid(),
+                        DateTime = new(2022, 11, 25, 10, 45, 33),
+                    },
+                    new BypassDateTime()
+                    {
+                        Id = new Guid(),
+                        DateTime = new(2022, 11, 25, 10, 45, 34),
+                    },
+                    new BypassDateTime()
+                    {
+                        Id = new Guid(),
+                        DateTime = new(2022, 11, 25, 10, 45, 35),
+                    }
+                },
+                BypassRoutePoints = _bypassRoutePointRepository.GetBypassRoutePoints()
                 }
             };
         }
@@ -58,6 +83,17 @@ namespace RoutesREST.Models.TestRepositories
         public BypassRoute GetBypassRouteByPerformerName(string performerName)
         {
             throw new NotImplementedException();
+        }
+
+        public void EditBypassRoute(BypassRoute bypassRoute)
+        {
+            var toEdit = _bypassRoutes.First(p => p.Id == bypassRoute.Id);
+            toEdit = bypassRoute;
+        }
+
+        public void DeleteBypassRoute(BypassRoute bypassRoute)
+        {
+            _bypassRoutes.Remove(bypassRoute);
         }
     }
 }

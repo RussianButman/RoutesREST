@@ -24,5 +24,21 @@ namespace RoutesREST.Controllers
 
             return new StatusCodeResult(StatusCodes.Status201Created);
         }
+        [Route("editbypassroute")]
+        [HttpPatch]
+        public IActionResult EditBypassRoute([FromBody] BypassRoute bypassRoute)
+        {
+            _bypassRouteRepository.EditBypassRoute(bypassRoute);
+
+            return new StatusCodeResult(StatusCodes.Status200OK);
+        }
+        [Route("deletebypassroute")]
+        [HttpDelete]
+        public IActionResult DeleteBypassRoute([FromBody] BypassRoute bypassRoute)
+        {
+            _bypassRouteRepository.DeleteBypassRoute(bypassRoute);
+
+            return new StatusCodeResult(StatusCodes.Status200OK);
+        }
     }
 }

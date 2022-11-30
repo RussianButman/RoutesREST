@@ -10,67 +10,55 @@ namespace RoutesREST.Models.TestRepositories
         {
             new()
             {
-                Id = 1,
+                Id = new Guid(),
                 BypassRouteIndex = 1,
                 Location = new()
                 {
-                    Id = 2,
+                    Id = new Guid(),
                     Latitude = 10.000001,
                     Longitude = 101.000001
-                } ,
+                },
                 BypassDatetimes = new()
                 {
-                    new(2022, 11, 25, 10, 45, 30),
-                    new(2022, 11, 25, 10, 45, 31),
-                    new(2022, 11, 25, 10, 45, 32),
-                    new(2022, 11, 25, 10, 45, 33),
-                    new(2022, 11, 25, 10, 45, 34),
-                }
-            },
-            new()
-            {
-                Id = 2,
-                BypassRouteIndex = 2,
-                Location = new()
-                {
-                    Id = 2,
-                    Latitude = 10.000001,
-                    Longitude = 101.000001
-                } ,
-                BypassDatetimes = new()
-                {
-                    new(2022, 11, 25, 10, 45, 30),
-                    new(2022, 11, 25, 10, 45, 31),
-                    new(2022, 11, 25, 10, 45, 32),
-                    new(2022, 11, 25, 10, 45, 33),
-                    new(2022, 11, 25, 10, 45, 34),
-                }
-            },
-            new()
-            {
-                Id = 3,
-                BypassRouteIndex = 3,
-                Location = new()
-                {
-                    Id = 2,
-                    Latitude = 10.000001,
-                    Longitude = 101.000001
-                } ,
-                BypassDatetimes = new()
-                {
-                    new(2022, 11, 25, 10, 45, 30),
-                    new(2022, 11, 25, 10, 45, 31),
-                    new(2022, 11, 25, 10, 45, 32),
-                    new(2022, 11, 25, 10, 45, 33),
-                    new(2022, 11, 25, 10, 45, 34),
-                }
+                    new BypassDateTime()
+                    {
+                        Id = new Guid(),
+                        DateTime = new(2022, 11, 25, 10, 45, 30),
+                    },
+                    new BypassDateTime()
+                    {
+                        Id = new Guid(),
+                        DateTime = new(2022, 11, 25, 10, 45, 31),
+                    },
+                    new BypassDateTime()
+                    {
+                        Id = new Guid(),
+                        DateTime = new(2022, 11, 25, 10, 45, 32),
+                    },
+                    new BypassDateTime()
+                    {
+                        Id = new Guid(),
+                        DateTime = new(2022, 11, 25, 10, 45, 33),
+                    },
+                    new BypassDateTime()
+                    {
+                        Id = new Guid(),
+                        DateTime = new(2022, 11, 25, 10, 45, 34),
+                    },
+                    new BypassDateTime()
+                    {
+                        Id = new Guid(),
+                        DateTime = new(2022, 11, 25, 10, 45, 35),
+                    }
+                },
+                NfcTagId = "04 9C 64 D2 45 2B 80"
             }
         };
 
         public void AddBypassRoutePoint(BypassRoutePoint bypassRoutePoint) => _bypassRoutePoints.Add(bypassRoutePoint);
 
         public List<BypassRoutePoint> GetBypassRoutePoints() => _bypassRoutePoints;
-        public BypassRoutePoint GetWalkRoutePointById(int id) => _bypassRoutePoints.First(b => b.Id == id);
+        public BypassRoutePoint GetWalkRoutePointById(Guid id) => _bypassRoutePoints.First(b => b.Id == id);
         public List<BypassRoutePoint> GetWalkRoutePointsByRegion(LatLongPoint[] latLongPoints)
         {
             throw new NotImplementedException();

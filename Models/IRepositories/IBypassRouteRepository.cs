@@ -9,5 +9,7 @@ namespace RoutesREST.Models.IRepositories
         BypassRoute GetBypassRouteByPerformerName(string performerName);
         BypassRoute GetBypassRouteByLocation(BypassRouteLocation location);
         void AddBypassRoute(BypassRoute bypassRoute);
+        void EditBypassRoute(BypassRoute bypassRoute);
+        void DeleteBypassRoute(BypassRoute bypassRoute);
     }
 }

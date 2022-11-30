@@ -1,10 +1,9 @@
 ﻿namespace RoutesREST.Models.Entities
 {
-    public class BypassRouteLocation
+    public class BypassDateTime
     {
         public Guid Id { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public DateTime DateTime { get; set; }
         public Guid RouteOrRoutePointId { get; set; }
     }
 }
