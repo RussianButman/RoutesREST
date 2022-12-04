@@ -33,9 +33,9 @@ namespace RoutesREST.Controllers
 
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
-        [Route("deletebypassroute/{routeId}")]
+        [Route("deletebypassroute")]
         [HttpDelete]
-        public IActionResult DeleteBypassRoute([FromRoute] string routeId)
+        public IActionResult DeleteBypassRoute([FromQuery] string routeId)
         {
             _bypassRouteRepository.DeleteBypassRoute(Guid.Parse(routeId));
 
@@ -54,8 +54,14 @@ namespace RoutesREST.Controllers
         [Route("getperformers")]
         [HttpGet]
         public IActionResult GetPerformers() => Ok(_performerRepository.GetAllPerformers());
-        [Route("assignperformer/{routeId}")]
+        [Route("assignperformer")]
         [HttpPatch]
-        public IActionResult AssignPerformer([FromRoute] string routeId, [FromBody] string performerId) => Ok(_bypassRouteRepository.AssignPerformer(Guid.Parse(routeId), Guid.Parse(performerId)));
+        public IActionResult AssignPerformer([FromQuery] string routeId, [FromQuery] string performerId) => Ok(_bypassRouteRepository.AssignPerformer(Guid.Parse(routeId), Guid.Parse(performerId)));
+        [Route("assigntag")]
+        [HttpPatch]
+        public IActionResult AssignTag([FromQuery] string routePointId, [FromQuery] string nfcTagUid)
+        {
+            return StatusCode(StatusCodes.Status200OK);
+        }
     }
 }

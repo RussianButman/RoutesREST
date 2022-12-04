@@ -20,15 +20,14 @@ namespace RoutesREST.Controllers
         [Route("routes")]
         [HttpGet]
         public List<BypassRoute> GetBypassRoutes() => _bypassRouteRepository.GetAllBypassRoutes();
-        [Route("getroutebyid/{routeId}")]
+        [Route("getroutebyid")]
         [HttpGet]
-        public IActionResult GetRouteById([FromRoute] string routeId) => Ok(_bypassRouteRepository.GetBypassRouteById(Guid.Parse(routeId)));
-        [Route("checkroutepoint/{routePointId}")]
+        public IActionResult GetRouteById([FromQuery] string routeId) => Ok(_bypassRouteRepository.GetBypassRouteById(Guid.Parse(routeId)));
+        [Route("checkroutepoint")]
         [HttpPatch]
-        public IActionResult CheckRoutePoint([FromRoute] string routePointId, [FromBody] string dateTimeString) => Ok(_bypassRoutePointRepository.CheckBypassRoute(routePointId, dateTimeString));
-        public IActionResult CheckBypassRoute([FromRoute] string routeId)
-        {
-            _context.
-        }
+        public IActionResult CheckRoutePoint([FromQuery] string routePointId, [FromQuery] string dateTimeString) => Ok(_bypassRoutePointRepository.CheckBypassRoute(routePointId, dateTimeString));
+        [Route("checkroute")]
+        [HttpPatch]
+        public IActionResult CheckBypassRoute([FromQuery] string routeId) => Ok(_bypassRouteRepository.CheckBypassRoute(Guid.Parse(routeId)));
     }
 }
