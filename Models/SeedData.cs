@@ -9,7 +9,10 @@ namespace RoutesREST.Models
             using var scope = app.ApplicationServices.CreateScope();
             ApplicationDbContext context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             context.Database.Migrate();
+        }
 
+        public static void EnsureIdentityCreated(IApplicationBuilder app)
+        {
 
         }
     }

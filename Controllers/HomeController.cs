@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RoutesREST.Models.Entities;
 using RoutesREST.Models.IRepositories;
@@ -6,6 +7,7 @@ using System.Reflection.Metadata;
 
 namespace RoutesREST.Controllers
 {
+    [Authorize]
     [Route("api")]
     public class HomeController : ControllerBase
     {

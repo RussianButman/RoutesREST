@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RoutesREST.Models.Entities;
 using RoutesREST.Models.HelperEntities;
 using RoutesREST.Models.IRepositories;
 
 namespace RoutesREST.Controllers
 {
+    [Authorize]
     [Route("api/admin")]
     public class AdminController : ControllerBase
     {
