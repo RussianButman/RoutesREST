@@ -8,6 +8,7 @@ namespace RoutesREST.Models.IRepositories
         List<BypassRoutePoint> GetBypassRoutePoints();
         BypassRoutePoint GetWalkRoutePointById(Guid id);
         List<BypassRoutePoint> GetWalkRoutePointsByRegion(LatLongPoint[] latLongPoints);
-        void AddBypassRoutePoint(BypassRoutePoint bypassRoutePoint);
+        BypassRoutePoint AddBypassRoutePoint(string routeId, LatLongPoint latLongPoint);
+        BypassRoutePoint? CheckBypassRoute(string routePointId, string dateTimeString);
     }
 }

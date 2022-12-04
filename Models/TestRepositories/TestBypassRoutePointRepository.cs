@@ -1,4 +1,4 @@
-﻿using RoutesREST.Models.Entities;
+﻿/*using RoutesREST.Models.Entities;
 using RoutesREST.Models.HelperEntities;
 using RoutesREST.Models.IRepositories;
 
@@ -20,32 +20,32 @@ namespace RoutesREST.Models.TestRepositories
                 },
                 BypassDatetimes = new()
                 {
-                    new BypassDateTime()
+                    new BypassRouteDateTime()
                     {
                         Id = new Guid(),
                         DateTime = new(2022, 11, 25, 10, 45, 30),
                     },
-                    new BypassDateTime()
+                    new BypassRouteDateTime()
                     {
                         Id = new Guid(),
                         DateTime = new(2022, 11, 25, 10, 45, 31),
                     },
-                    new BypassDateTime()
+                    new BypassRouteDateTime()
                     {
                         Id = new Guid(),
                         DateTime = new(2022, 11, 25, 10, 45, 32),
                     },
-                    new BypassDateTime()
+                    new BypassRouteDateTime()
                     {
                         Id = new Guid(),
                         DateTime = new(2022, 11, 25, 10, 45, 33),
                     },
-                    new BypassDateTime()
+                    new BypassRouteDateTime()
                     {
                         Id = new Guid(),
                         DateTime = new(2022, 11, 25, 10, 45, 34),
                     },
-                    new BypassDateTime()
+                    new BypassRouteDateTime()
                     {
                         Id = new Guid(),
                         DateTime = new(2022, 11, 25, 10, 45, 35),
@@ -65,3 +65,4 @@ namespace RoutesREST.Models.TestRepositories
         }
     }
 }
+*/

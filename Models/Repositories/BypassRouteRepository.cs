@@ -1,4 +1,5 @@
 ﻿using RoutesREST.Models.Entities;
+using RoutesREST.Models.HelperEntities;
 using RoutesREST.Models.IRepositories;
 
 namespace RoutesREST.Models.Repositories
@@ -12,30 +13,43 @@ namespace RoutesREST.Models.Repositories
             _context = context;
         }
 
-        public void AddBypassRoute(BypassRoute bypassRoute)
+        public BypassRoute AddBypassRoute(BypassRouteCreate bypassRouteCreate)
+        {
+            if (_context.BypassRoutePointLocations.Where(l => l.Latitude == bypassRouteCreate.Location.Latitude && l.Longitude == bypassRouteCreate.Location.Longitude).Count() == 0)
+            {
+                _context.BypassRouteLocations.Add(new()
+                {
+                    Id = new Guid(),
+                    Latitude = bypassRouteCreate.Location.Latitude,
+                    Longitude = bypassRouteCreate.Location.Longitude
+                });
+                _context.SaveChanges();
+            }
+            BypassRoute bypassRoute = new()
+            {
+                Id = new Guid(),
+                Name = bypassRouteCreate.Name,
+                Location = _context.BypassRouteLocations.First(l => l.Latitude == bypassRouteCreate.Location.Latitude && l.Longitude == bypassRouteCreate.Location.Longitude)
+            };
+            _context.BypassRoutes.Add(bypassRoute);
+            _context.SaveChanges();
+
+            return bypassRoute;
+        }
+
+        public void DeleteBypassRoute(Guid routeId)
+        {
+            _context.BypassRoutes.Remove(_context.BypassRoutes.First(r => r.Id == routeId));
+        }
+
+        public BypassRoute EditBypassRoute(BypassRoute bypassRoute)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteBypassRoute(BypassRoute bypassRoute)
-        {
-            throw new NotImplementedException();
-        }
+        public List<BypassRoute> GetAllBypassRoutes() => _context.BypassRoutes.ToList();
 
-        public void EditBypassRoute(BypassRoute bypassRoute)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<BypassRoute> GetAllBypassRoutes()
-        {
-            throw new NotImplementedException();
-        }
-
-        public BypassRoute GetBypassRouteById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public BypassRoute? GetBypassRouteById(Guid routeId) => _context.BypassRoutes.FirstOrDefault(r => r.Id == routeId);
 
         public BypassRoute GetBypassRouteByLocation(BypassRouteLocation location)
         {
@@ -45,6 +59,40 @@ namespace RoutesREST.Models.Repositories
         public BypassRoute GetBypassRouteByPerformerName(string performerName)
         {
             throw new NotImplementedException();
+        }
+        public BypassRoute? AssignPerformer(Guid routeId, Guid performerId)
+        {
+            var bypassRoute = _context.BypassRoutes.FirstOrDefault(r => r.Id == routeId);
+            var performer = _context.Performers.FirstOrDefault(p => p.Id == performerId);
+            if ((bypassRoute != null) && (performer != null))
+            {
+                bypassRoute.Performer = performer;
+                _context.SaveChanges();
+
+                return bypassRoute;
+            } else
+            {
+                return null;
+            }
+        }
+        public BypassRoute? CheckBypassRoute(Guid routeId)
+        {
+            BypassRoute? bypassRoute = _context.BypassRoutes.FirstOrDefault(r => r.Id == routeId);
+
+            if (bypassRoute != null)
+            {
+                bypassRoute.BypassDatetimes.Add(new()
+                {
+                    Id = new Guid(),
+                    DateTime = DateTime.Now.ToUniversalTime()
+                });
+                _context.SaveChanges();
+                return bypassRoute;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
