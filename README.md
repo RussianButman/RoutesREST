@@ -29,12 +29,17 @@
  Получает список всех маршрутов
  
  **URL**: `/api/getroutes`
+ 
  **Method**: `GET`
+ 
  **Auth requires**: YES
+ 
  **Permissions required**: None
  
  ### Success responses
+ 
  **Code**: `200 OK`
+ 
  **Content**: 
  ```json
  [
