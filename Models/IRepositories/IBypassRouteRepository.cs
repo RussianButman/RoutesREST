@@ -12,7 +12,7 @@ namespace RoutesREST.Models.IRepositories
         BypassRoute AddBypassRoute(BypassRouteCreate bypassRouteCreate);
         BypassRoute EditBypassRoute(BypassRoute bypassRoute);
         void DeleteBypassRoute(Guid routeId);
-        BypassRoute? AssignPerformer(Guid routeId, Guid performerId);
+        Task<BypassRoute?> AssignPerformer(Guid routeId, string performerId);
         BypassRoute? CheckBypassRoute(Guid routeId);
     }
 }

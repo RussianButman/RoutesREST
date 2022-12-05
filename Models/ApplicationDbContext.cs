@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RoutesREST.Models.Entities;
 using System.Diagnostics;
 
 namespace RoutesREST.Models
 {
-    public class ApplicationDbContext : DbContext
+    public partial class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -15,7 +16,7 @@ namespace RoutesREST.Models
         public DbSet<BypassRouteLocation> BypassRouteLocations { get; set; }
         public DbSet<BypassRoutePointLocation> BypassRoutePointLocations { get; set; }
         public DbSet<BypassRouteDateTime> BypassDateTimes { get; set; }
-        public DbSet<Performer> Performers { get; set; }
+        // public DbSet<Performer> Performers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BypassRoute>()
@@ -38,11 +39,12 @@ namespace RoutesREST.Models
                 .HasOne<BypassRoutePointLocation>(s => s.Location)
                 .WithOne(g => g.BypassRoutePoint)
                 .HasForeignKey<BypassRoutePointLocation>(l => l.BypassRoutePointId);
-            modelBuilder.Entity<Performer>()
+            modelBuilder.Entity<AppUser>()
                 .HasOne<BypassRoute>(s => s.BypassRoute)
                 .WithOne(g => g.Performer)
-                .HasForeignKey<Performer>(r => r.RouteId);
-            //base.OnModelCreating(modelBuilder);
+                .HasForeignKey<AppUser>(r => r.RouteId);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

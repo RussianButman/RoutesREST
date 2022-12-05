@@ -1,4 +1,5 @@
-﻿using RoutesREST.Models.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using RoutesREST.Models.Entities;
 using RoutesREST.Models.HelperEntities;
 using RoutesREST.Models.IRepositories;
 
@@ -7,10 +8,12 @@ namespace RoutesREST.Models.Repositories
     public class BypassRouteRepository : IBypassRouteRepository
     {
         private ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public BypassRouteRepository(ApplicationDbContext context)
+        public BypassRouteRepository(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public BypassRoute AddBypassRoute(BypassRouteCreate bypassRouteCreate)
@@ -60,10 +63,11 @@ namespace RoutesREST.Models.Repositories
         {
             throw new NotImplementedException();
         }
-        public BypassRoute? AssignPerformer(Guid routeId, Guid performerId)
+        public async Task<BypassRoute?> AssignPerformer(Guid routeId, string performerId)
         {
             var bypassRoute = _context.BypassRoutes.FirstOrDefault(r => r.Id == routeId);
-            var performer = _context.Performers.FirstOrDefault(p => p.Id == performerId);
+            // var performer = _context.Performers.FirstOrDefault(p => p.Id == performerId);
+            var performer = await _userManager.FindByIdAsync(performerId);
             if ((bypassRoute != null) && (performer != null))
             {
                 bypassRoute.Performer = performer;

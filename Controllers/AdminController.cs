@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RoutesREST.Models;
 using RoutesREST.Models.Entities;
 using RoutesREST.Models.HelperEntities;
 using RoutesREST.Models.IRepositories;
@@ -12,12 +13,12 @@ namespace RoutesREST.Controllers
     {
         private IBypassRoutePointRepository _bypassRoutePointRepository;
         private IBypassRouteRepository _bypassRouteRepository;
-        private IPerformerRepository _performerRepository;
-        public AdminController(IBypassRoutePointRepository bypassRoutePointRepository, IBypassRouteRepository bypassRouteRepository, IPerformerRepository performerRepository)
+        // private IPerformerRepository _performerRepository;
+        public AdminController(IBypassRoutePointRepository bypassRoutePointRepository, IBypassRouteRepository bypassRouteRepository /*IPerformerRepository performerRepository*/)
         {
             _bypassRoutePointRepository = bypassRoutePointRepository;
             _bypassRouteRepository = bypassRouteRepository;
-            _performerRepository = performerRepository;
+            // _performerRepository = performerRepository;
         }
         [Route("addbypassroute")]
         [HttpPut]
@@ -29,12 +30,8 @@ namespace RoutesREST.Controllers
 
         [Route("editbypassroute")]
         [HttpPatch]
-        public IActionResult EditBypassRoute([FromBody] BypassRoute bypassRoute)
-        {
-            _bypassRouteRepository.EditBypassRoute(bypassRoute);
+        public IActionResult EditBypassRoute([FromBody] BypassRoute bypassRoute) => Ok(_bypassRouteRepository.EditBypassRoute(bypassRoute));
 
-            return new StatusCodeResult(StatusCodes.Status200OK);
-        }
         [Route("deletebypassroute")]
         [HttpDelete]
         public IActionResult DeleteBypassRoute([FromQuery] string routeId)
@@ -44,21 +41,19 @@ namespace RoutesREST.Controllers
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
 
-        [Route("addperformer")]
+        /*[Route("addperformer")]
         [HttpPut]
         // 00000000-0000-0000-0000-000000000000
-        public IActionResult AddPerformer([FromBody] Performer performer)
-        {
-            performer.Id = new Guid();
-            
+        public IActionResult AddPerformer([FromBody] AppUser performer)
+        {            
             return Ok(_performerRepository.AddPerformer(performer));
-        }
-        [Route("getperformers")]
+        }*/
+        /*[Route("getperformers")]
         [HttpGet]
-        public IActionResult GetPerformers() => Ok(_performerRepository.GetAllPerformers());
+        public IActionResult GetPerformers() => Ok(_performerRepository.GetAllPerformers());*/
         [Route("assignperformer")]
         [HttpPatch]
-        public IActionResult AssignPerformer([FromQuery] string routeId, [FromQuery] string performerId) => Ok(_bypassRouteRepository.AssignPerformer(Guid.Parse(routeId), Guid.Parse(performerId)));
+        public IActionResult AssignPerformer([FromQuery] string routeId, [FromQuery] string performerId) => Ok(_bypassRouteRepository.AssignPerformer(Guid.Parse(routeId), performerId).Result);
         [Route("assigntag")]
         [HttpPatch]
         public IActionResult AssignTag([FromQuery] string routePointId, [FromQuery] string nfcTagUid)

@@ -3,7 +3,7 @@ using RoutesREST.Models.IRepositories;
 
 namespace RoutesREST.Models.Repositories
 {
-    public class PerformerRepository : IPerformerRepository
+    /*public class PerformerRepository : IPerformerRepository
     {
         private ApplicationDbContext _context;
 
@@ -29,5 +29,5 @@ namespace RoutesREST.Models.Repositories
             _context.Performers.Remove(performer);
             _context.SaveChanges();
         }
-    }
+    }*/
 }
