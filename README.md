@@ -10,33 +10,112 @@
 - Запуск обхода маршрута, считывание NFC меток
 
 Приложение выполнено на платформе ASP.NET.
+
 В качестве БД использовалась PostgreSQL.
+
 Для взаимодействия с БД использовалась Entity Framework Core с подходом Code First.
 
-В приложении представлено три контроллера:
-- HomeController
-- AdminController
-- AccountController
+# Авторизация
 
-Контроллер HomeController содержит методы для получения списка маршрутов и отметки о прохождении точек маршрута
-Контроллер AdminController содержит методы, предназначенные для администраторов (добавление, редактирование, удаление маршрутов/точек маршрутов), привязка NFC-меток.
-Контроллер AccountController содержит методы для авторизации и регистрации пользователей.
+Авторизация реализована на основе токенов (JWT)
 
- # HomeController
- 
- ## Get All Routes
- 
- Получает список всех маршрутов
- 
- **URL**: `/api/getroutes`
- 
- **Method**: `GET`
- 
- **Auth requires**: YES
- 
- **Permissions required**: None
- 
- ### Success responses
+Чтобы получить доступ к методам и контроллерам, требующим авторизции, нужно в заголовке запроса указать заголовок:
+
+```json
+{
+ "Authorization": "Bearer <token>"
+}
+```
+
+# AccountController
+
+Используется для входа и регистрации
+
+Включает следующие методы:
+
+## Login
+
+Метод авторизации
+
+**URL**: `/api/account/login`
+
+**Method**: `POST`
+
+**Auth requires**: NO
+
+**Permissions required**: None
+
+**Data constraints**:
+
+Нужно указать логин и пароль.
+
+```json
+{
+ "username": "[unicode 64 chars max]",
+ "password": "[unicode 64 chars max]"
+}
+```
+
+Пример ввода данных:
+
+```json
+{
+ "username": "RussianButman",
+ "password": "passW0rd123$"
+}
+```
+
+## Register
+
+Метод для регистрации
+
+**URL**: `/api/account/register`
+
+**Method**: `POST`
+
+**Auth requires**: NO
+
+**Permissions required**: None
+
+**Data constraints**:
+
+Нужно указать логин, пароль и ФИО.
+
+```json
+{
+ "username": "[unicode 64 chars max]",
+ "password": "[unicode 64 chars max]",
+ "fullName": "[unicode 64 chars max]"
+}
+```
+
+Пример ввода данных:
+
+```json
+{
+ "username": "RussianButman",
+ "password": "passW0rd123$",
+ "fullName": "Фамилия Имя Отчество"
+}
+```
+
+# HomeController
+
+Основной конттроллер для исполнителей обходов маршрутов.
+
+## Get Routes
+
+Метод для получения всех маршрутов.
+
+**URL**: `/api/getroutes`
+
+**Method**: `GET`
+
+**Auth requires**: YES
+
+**Permissions required**: None
+
+### Success responses
  
  **Code**: `200 OK`
  
@@ -94,3 +173,189 @@
   }
 ]
 ```
+
+## Get Route by Id
+
+Метод для получения объекта маршрута по идентификатору.
+
+**URL**: `/api/getroutesbyid`
+
+**Method**: `GET`
+
+**Auth requires**: YES
+
+**Permissions required**: None
+
+### Success responses
+
+**Code**: `200 OK`
+
+**Content**:
+
+```json
+{
+    "performer": {
+        "id": "84a0142c-26a7-4948-99ae-1367d1279349",
+        "name": "Фамилия Имя Отчество",
+        "bypassRoute": null,
+        "routeId": "e7f037f1-1c86-4023-96e5-b97b04bfc93c"
+    },
+    "location": {
+        "id": "14f451f2-009a-4e11-94f3-6998f6b7c73a",
+        "latitude": 20.001,
+        "longitude": 110.0002,
+        "bypassRoute": null,
+        "bypassRouteId": "e7f037f1-1c86-4023-96e5-b97b04bfc93c"
+    },
+    "bypassRoutePoints": [
+        {
+            "id": "4668edca-85f4-44b6-aec5-ba07f7872fe4",
+            "bypassRouteIndex": 1,
+            "location": {
+                "id": "a50132fe-8d72-46cc-9e8e-2b12c0ceb37d",
+                "latitude": 10.0004,
+                "longitude": 110.0005,
+                "bypassRoutePoint": null,
+                "bypassRoutePointId": "4668edca-85f4-44b6-aec5-ba07f7872fe4"
+            },
+            "bypassDatetimes": [
+                {
+                    "id": "ef24b64c-3cd1-4f47-8575-fc51e2b41a07",
+                    "dateTime": "2022-12-03T02:11:12.029Z",
+                    "bypassRoutePoint": null,
+                    "routePointId": "4668edca-85f4-44b6-aec5-ba07f7872fe4"
+                }
+            ],
+            "nfcTagId": "",
+            "bypassRoute": null,
+            "routeId": "e7f037f1-1c86-4023-96e5-b97b04bfc93c"
+        }
+    ],
+    "bypassDatetimes": [],
+    "lazyLoader": {},
+    "id": "e7f037f1-1c86-4023-96e5-b97b04bfc93c",
+    "name": "string"
+}
+```
+
+## Check Route Point
+
+Отметить обход точки маршрута текущим временем сервера.
+
+**URL**: `/api/checkroutepoint?routePointId`
+
+**URL Parameters**: `routePointId` - идентификатор точки маршрута
+
+**Method**: `GET`
+
+**Auth requires**: YES
+
+**Permissions required**: None
+
+### Success responses
+
+**Code** `200 OK`
+
+**Content**: 
+
+```json
+{
+    "id": "4668edca-85f4-44b6-aec5-ba07f7872fe4",
+    "bypassRouteIndex": 1,
+    "location": {
+        "id": "a50132fe-8d72-46cc-9e8e-2b12c0ceb37d",
+        "latitude": 10.0004,
+        "longitude": 110.0005,
+        "bypassRoutePoint": null,
+        "bypassRoutePointId": "4668edca-85f4-44b6-aec5-ba07f7872fe4"
+    },
+    "bypassDatetimes": [
+        {
+            "id": "ef24b64c-3cd1-4f47-8575-fc51e2b41a07",
+            "dateTime": "2022-12-03T02:11:12.029Z",
+            "bypassRoutePoint": null,
+            "routePointId": "4668edca-85f4-44b6-aec5-ba07f7872fe4"
+        }
+    ],
+    "nfcTagId": "",
+    "bypassRoute": null,
+    "routeId": "e7f037f1-1c86-4023-96e5-b97b04bfc93c"
+}
+```
+
+## Check Route
+
+Отметить обход маршрута текущим временем сервера.
+
+**URL**: `/api/checkroute?routeId`
+
+**URL Parameters**: `routeId` - идентификатор маршрута
+
+**Method**: `GET`
+
+**Auth requires**: YES
+
+**Permissions required**: None
+
+### Success responses
+
+**Code** `200 OK`
+
+**Content**:
+
+```json
+{
+
+    "id": "e7f037f1-1c86-4023-96e5-b97b04bfc93c",
+    "name": "string",
+    "performer": {
+        "id": "84a0142c-26a7-4948-99ae-1367d1279349",
+        "name": "Фамилия Имя Отчество",
+        "bypassRoute": null,
+        "routeId": "e7f037f1-1c86-4023-96e5-b97b04bfc93c"
+    },
+    "location": {
+        "id": "14f451f2-009a-4e11-94f3-6998f6b7c73a",
+        "latitude": 20.001,
+        "longitude": 110.0002,
+        "bypassRoute": null,
+        "bypassRouteId": "e7f037f1-1c86-4023-96e5-b97b04bfc93c"
+    },
+    "bypassRoutePoints": [{}, {}, {}],
+    "bypassDatetimes": [],
+    "lazyLoader": {}
+}
+```
+
+# AdminController
+
+Контроллер для администраторов
+
+## Add Bypass Route
+
+Добавить маршрут.
+
+**URL**: `/api/admin/addbypassroute`
+
+**Method**: `PUT`
+
+**Auth requires**: YES
+
+**Permissions required**: None
+
+### Success responses
+
+**Code** `200 OK`
+
+**Content**:
+
+```json
+{
+    "name": "string",
+    {
+     "Latitude": 0,
+     "Longitude": 0
+    }
+}
+```
+
