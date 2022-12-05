@@ -36,7 +36,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IBypassRouteRepository, BypassRouteRepository>();
 builder.Services.AddTransient<IBypassRoutePointRepository, BypassRoutePointRepository>();
 builder.Services.AddTransient<IPerformerRepository, PerformerRepository>();
-
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -48,9 +47,9 @@ builder.Services.AddAuthentication(options =>
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:SymmetricSecretKey"]))
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtIdentityOptions.SymmetricSecretKey))
     };
 });
 var app = builder.Build();

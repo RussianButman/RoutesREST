@@ -15,13 +15,13 @@ namespace RoutesREST.Models.IdentityData
         RSA rsa = RSA.Create();
         public RsaSecurityKey GetIssuerSigningKey()
         {
-            rsa.ImportFromPem(_configuration["AppSettings:PublicKey"].ToCharArray());
+            rsa.ImportFromPem(JwtIdentityOptions.PrivateKey.ToCharArray());
 
             return new RsaSecurityKey(rsa);
         }
         public SigningCredentials GetAudienceSigningKey()
         {
-            rsa.ImportFromPem(_configuration["AppSettings:PrivateKey"].ToCharArray());
+            rsa.ImportFromPem(JwtIdentityOptions.PrivateKey.ToCharArray());
 
             return new SigningCredentials(
                 key: new RsaSecurityKey(rsa),
