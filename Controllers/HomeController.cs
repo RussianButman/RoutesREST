@@ -13,11 +13,13 @@ namespace RoutesREST.Controllers
     {
         private IBypassRouteRepository _bypassRouteRepository;
         private IBypassRoutePointRepository _bypassRoutePointRepository;
+        private IConfiguration _configuration;
 
-        public HomeController(IBypassRouteRepository bypassRouteRepository, IBypassRoutePointRepository bypassRoutePointRepository)
+        public HomeController(IBypassRouteRepository bypassRouteRepository, IBypassRoutePointRepository bypassRoutePointRepository, IConfiguration configuration)
         {
             _bypassRouteRepository = bypassRouteRepository;
             _bypassRoutePointRepository = bypassRoutePointRepository;
+            _configuration = configuration;
         }
         [Route("routes")]
         [HttpGet]

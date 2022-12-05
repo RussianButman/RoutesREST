@@ -12,7 +12,7 @@ namespace RoutesREST.Controllers
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        private string _jwtSecret = "JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr";
+        //private string _jwtSecret = "JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr";
         private enum UserRoles
         {
             Admin,
@@ -118,7 +118,8 @@ namespace RoutesREST.Controllers
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret));
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AppSettings:SymmetricSecretKey"]));
+
 
             var token = new JwtSecurityToken(
                 issuer: "https://localhost:7279",
