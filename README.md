@@ -120,6 +120,8 @@
  **Code**: `200 OK`
  
  **Content**: 
+ `BypassRoute array`
+ 
  ```json
  [
   {
@@ -191,6 +193,7 @@
 **Code**: `200 OK`
 
 **Content**:
+`BypassRoute instance`
 
 ```json
 {
@@ -257,6 +260,7 @@
 **Code** `200 OK`
 
 **Content**: 
+`BypassRoutePoint instance`
 
 ```json
 {
@@ -302,30 +306,7 @@
 **Code** `200 OK`
 
 **Content**:
-
-```json
-{
-
-    "id": "e7f037f1-1c86-4023-96e5-b97b04bfc93c",
-    "name": "string",
-    "performer": {
-        "id": "84a0142c-26a7-4948-99ae-1367d1279349",
-        "name": "Фамилия Имя Отчество",
-        "bypassRoute": null,
-        "routeId": "e7f037f1-1c86-4023-96e5-b97b04bfc93c"
-    },
-    "location": {
-        "id": "14f451f2-009a-4e11-94f3-6998f6b7c73a",
-        "latitude": 20.001,
-        "longitude": 110.0002,
-        "bypassRoute": null,
-        "bypassRouteId": "e7f037f1-1c86-4023-96e5-b97b04bfc93c"
-    },
-    "bypassRoutePoints": [{}, {}, {}],
-    "bypassDatetimes": [],
-    "lazyLoader": {}
-}
-```
+`BypassRoute instance`
 
 # AdminController
 
@@ -341,7 +322,7 @@
 
 **Auth requires**: YES
 
-**Permissions required**: None
+**Permissions required**: Admin
 
 ### Success responses
 
@@ -359,3 +340,77 @@
 }
 ```
 
+## Add Bypass Route Point
+
+Добавить точку в заданном маршруте.
+
+**URL**: `/api/admin/addbypassroutepoint/:routeId`
+
+**Method**: `PUT`
+
+**Auth requires**: YES
+
+**Permissions required**: Admin
+
+### Success responses
+
+**Code** `200 OK`
+
+**Content**: `BypassRoutePoint instance`
+
+
+## Edit Bypass Route Point
+
+Добавить точку в заданном маршруте.
+
+**URL**: `/api/admin/editbypassroute`
+
+**Method**: `PATCH`
+
+**Auth requires**: YES
+
+**Permissions required**: Admin
+
+**Data constraints**: `BypassRoute instance`
+
+### Success responses
+
+**Code** `200 OK`
+
+**Content**: `BypassRoutePoint instance`
+
+## Delete Bypass Route Point
+
+Добавить точку в заданном маршруте.
+
+**URL**: `/api/admin/addbypassroutepoint?routeId`
+
+**URL Parameters**: `routeId` - идентификатор маршрута
+
+**Method**: `DELETE`
+
+**Auth requires**: YES
+
+**Permissions required**: Admin
+
+### Success responses
+
+**Code** `200 OK`
+
+## Add Performer
+
+Добавить точку в заданном маршруте.
+
+**URL**: `/api/admin/addperformer`
+
+**URL Parameters**: `routeId` - идентификатор маршрута
+
+**Method**: `DELETE`
+
+**Auth requires**: YES
+
+**Permissions required**: Admin
+
+### Success responses
+
+**Code** `200 OK`
