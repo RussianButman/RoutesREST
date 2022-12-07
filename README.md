@@ -85,7 +85,9 @@
 {
  "username": "[unicode 64 chars max]",
  "password": "[unicode 64 chars max]",
- "fullName": "[unicode 64 chars max]"
+ "fullName": "[unicode 64 chars max]",
+ "email": "[unicode 64 chars max]",
+ "phoneNumber": "[unicode 64 chars max]"
 }
 ```
 
@@ -95,7 +97,9 @@
 {
  "username": "RussianButman",
  "password": "passW0rd123$",
- "fullName": "Фамилия Имя Отчество"
+ "fullName": "Фамилия Имя Отчество",
+ "email": "email@example.com",
+ "phoneNumber": "+79999999999"
 }
 ```
 
