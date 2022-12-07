@@ -413,3 +413,21 @@
 **Code** `200 OK`
 
 **Content**: `BypassRoute instance`
+
+## Assign Nfc Tag
+
+Назначить идентификатор NFC-метки заданной точке.
+
+**URL**: `/api/admin/assignperformer?routePointId&nfcTagUid`
+
+**Method**: `PATCH`
+
+**Auth requires**: YES
+
+**Permissions required**: Admin
+
+### Success responses
+
+**Code** `200 OK`
+
+**Content**: `BypassRoutePoint instance`
