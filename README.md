@@ -340,28 +340,9 @@
 }
 ```
 
-## Add Bypass Route Point
+## Edit Bypass Route
 
-Добавить точку в заданном маршруте.
-
-**URL**: `/api/admin/addbypassroutepoint/:routeId`
-
-**Method**: `PUT`
-
-**Auth requires**: YES
-
-**Permissions required**: Admin
-
-### Success responses
-
-**Code** `200 OK`
-
-**Content**: `BypassRoutePoint instance`
-
-
-## Edit Bypass Route Point
-
-Добавить точку в заданном маршруте.
+Редактирование маршрута по заданному идентификатору.
 
 **URL**: `/api/admin/editbypassroute`
 
@@ -381,27 +362,9 @@
 
 ## Delete Bypass Route Point
 
-Добавить точку в заданном маршруте.
+Удаление маршрута по заданному идентификатору.
 
-**URL**: `/api/admin/addbypassroutepoint?routeId`
-
-**URL Parameters**: `routeId` - идентификатор маршрута
-
-**Method**: `DELETE`
-
-**Auth requires**: YES
-
-**Permissions required**: Admin
-
-### Success responses
-
-**Code** `200 OK`
-
-## Add Performer
-
-Добавить точку в заданном маршруте.
-
-**URL**: `/api/admin/addperformer`
+**URL**: `/api/admin/deletebypassroute?routeId`
 
 **URL Parameters**: `routeId` - идентификатор маршрута
 
@@ -414,3 +377,39 @@
 ### Success responses
 
 **Code** `200 OK`
+
+## Add Bypass Route Point
+
+Добавить точку в заданном маршруте.
+
+**URL**: `/api/admin/addbypassroutepoint/:routeId`
+
+**Method**: `PUT`
+
+**Auth requires**: YES
+
+**Permissions required**: Admin
+
+### Success responses
+
+**Code** `200 OK`
+
+**Content**: `BypassRoutePoint instance`
+
+## Assign Performer By Id
+
+Назначить пользователя по идентификатору в качестве исполнителя для заданного по идентификатору маршрута.
+
+**URL**: `/api/admin/assignperformer?userId&routeId`
+
+**Method**: `PATCH`
+
+**Auth requires**: YES
+
+**Permissions required**: Admin
+
+### Success responses
+
+**Code** `200 OK`
+
+**Content**: `BypassRoute instance`
