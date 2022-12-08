@@ -8,15 +8,10 @@ namespace RoutesREST.Models.Repositories
     public class BypassRouteRepository : IBypassRouteRepository
     {
         private ApplicationDbContext _context;
-        private readonly UserManager<AppUser> _userManager;
 
         public IQueryable<BypassRoute> BypassRoutes => _context.BypassRoutes;
 
-        public BypassRouteRepository(ApplicationDbContext context, UserManager<AppUser> userManager)
-        {
-            _context = context;
-            _userManager = userManager;
-        }
+        public BypassRouteRepository(ApplicationDbContext context) => _context = context;
 
         public BypassRoute AddBypassRoute(BypassRouteCreate bypassRouteCreate)
         {
@@ -55,54 +50,5 @@ namespace RoutesREST.Models.Repositories
         public List<BypassRoute> GetAllBypassRoutes() => _context.BypassRoutes.ToList();
 
         public BypassRoute? GetBypassRouteById(Guid routeId) => _context.BypassRoutes.FirstOrDefault(r => r.Id == routeId);
-
-        public BypassRoute GetBypassRouteByLocation(BypassRouteLocation location)
-        {
-            throw new NotImplementedException();
-        }
-
-        public BypassRoute GetBypassRouteByPerformerName(string performerName)
-        {
-            throw new NotImplementedException();
-        }
-        public async Task<BypassRoute?> AssignPerformer(Guid routeId, string performerId)
-        {
-            /*var bypassRoute = _context.BypassRoutes.FirstOrDefault(r => r.Id == routeId);
-             var performer = _context.Performers.FirstOrDefault(p => p.Id == performerId);
-            var performer = await _userManager.FindByIdAsync(performerId);
-            if ((bypassRoute != null) && (performer != null))
-            {
-                bypassRoute.Performer = performer;
-                _context.SaveChanges();
-
-                return bypassRoute;
-            } else
-            {
-                return null;
-            }*/
-
-            return null;
-        }
-        public BypassRoute? CheckBypassRoute(Guid routeId)
-        {
-            /*BypassRoute? bypassRoute = _context.BypassRoutes.FirstOrDefault(r => r.Id == routeId);
-
-            if (bypassRoute != null)
-            {
-                bypassRoute.BypassDatetimes.Add(new()
-                {
-                    Id = new Guid(),
-                    DateTime = DateTime.Now.ToUniversalTime()
-                });
-                _context.SaveChanges();
-                return bypassRoute;
-            }
-            else
-            {
-                return null;
-            }*/
-
-            return null;
-        }
     }
 }

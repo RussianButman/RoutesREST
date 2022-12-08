@@ -7,18 +7,16 @@ using RoutesREST.Models.IRepositories;
 
 namespace RoutesREST.Controllers
 {
-    //[Authorize]
+    [Authorize(Roles = "Admin")]
     [Route("api/admin")]
     public class AdminController : ControllerBase
     {
         private IBypassRoutePointRepository _bypassRoutePointRepository;
         private IBypassRouteRepository _bypassRouteRepository;
-        // private IPerformerRepository _performerRepository;
-        public AdminController(IBypassRoutePointRepository bypassRoutePointRepository, IBypassRouteRepository bypassRouteRepository /*IPerformerRepository performerRepository*/)
+        public AdminController(IBypassRoutePointRepository bypassRoutePointRepository, IBypassRouteRepository bypassRouteRepository)
         {
             _bypassRoutePointRepository = bypassRoutePointRepository;
             _bypassRouteRepository = bypassRouteRepository;
-            // _performerRepository = performerRepository;
         }
         [Route("addbypassroute")]
         [HttpPut]

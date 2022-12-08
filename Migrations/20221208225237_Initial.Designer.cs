@@ -12,7 +12,7 @@ using RoutesREST.Models;
 namespace RoutesREST.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221207224603_Initial")]
+    [Migration("20221208225237_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

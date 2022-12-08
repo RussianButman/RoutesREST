@@ -71,5 +71,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 SeedData.EnsureCreated(app);
+await SeedData.CreateAdminAccount(app);
 
 app.Run();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RoutesREST.Models;
@@ -12,7 +13,6 @@ namespace RoutesREST.Controllers
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        //private string _jwtSecret = "JWTAuthenticationHIGHsecuredPasswordVVVp1OH7Xzyr";
         private enum UserRoles
         {
             Admin,
@@ -39,6 +39,7 @@ namespace RoutesREST.Controllers
                 var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
@@ -68,18 +69,29 @@ namespace RoutesREST.Controllers
 
             AppUser user = new()
             {
-                Email = model.Email,
+                Email = model.Email!,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username,
-                FullName = model.FullName
+                UserName = model.Username!,
+                FullName = model.FullName!
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error occured: {result.Errors.ElementAt(0).Description}.");
 
+            if (!await _roleManager.RoleExistsAsync(UserRoles.User.ToString()))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User.ToString()));
+                await _userManager.AddToRoleAsync(user, UserRoles.User.ToString());
+            }
+            else
+            {
+                await _userManager.AddToRoleAsync(user, UserRoles.User.ToString());
+            }
+
             return Ok();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
@@ -90,27 +102,24 @@ namespace RoutesREST.Controllers
 
             AppUser user = new()
             {
-                Email = model.Email,
+                Email = model.Email!,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                UserName = model.Username,
+                FullName = model.FullName
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, "User creation failed! Please check user details and try again.");
 
             if (!await _roleManager.RoleExistsAsync(UserRoles.Admin.ToString()))
+            {
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin.ToString()));
-            if (!await _roleManager.RoleExistsAsync(UserRoles.User.ToString()))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User.ToString()));
-
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin.ToString()))
+                await _userManager.AddToRoleAsync(user, UserRoles.Admin.ToString());
+            } else
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.Admin.ToString());
             }
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin.ToString()))
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.User.ToString());
-            }
+
             return Ok();
         }
 

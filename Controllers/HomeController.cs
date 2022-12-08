@@ -7,26 +7,23 @@ using RoutesREST.Models.Entities;
 using RoutesREST.Models.HelperEntities;
 using RoutesREST.Models.IRepositories;
 using System.Reflection.Metadata;
+using System.Security.Claims;
 
 namespace RoutesREST.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api")]
     public class HomeController : ControllerBase
     {
         private IBypassRouteRepository _bypassRouteRepository;
         private IBypassRoutePointRepository _bypassRoutePointRepository;
         private IBypassRouteInstanceRepository _bypassRouteInstanceRepository;
-        private UserManager<AppUser> _userManager;
-        private IConfiguration _configuration;
 
-        public HomeController(IBypassRouteRepository bypassRouteRepository, IBypassRoutePointRepository bypassRoutePointRepository, IConfiguration configuration, IBypassRouteInstanceRepository bypassRouteInstanceRepository, UserManager<AppUser> userManager)
+        public HomeController(IBypassRouteRepository bypassRouteRepository, IBypassRoutePointRepository bypassRoutePointRepository, IBypassRouteInstanceRepository bypassRouteInstanceRepository)
         {
             _bypassRouteRepository = bypassRouteRepository;
             _bypassRoutePointRepository = bypassRoutePointRepository;
-            _configuration = configuration;
             _bypassRouteInstanceRepository = bypassRouteInstanceRepository;
-            _userManager = userManager;
         }
         [Route("routes")]
         [HttpGet]
@@ -59,19 +56,35 @@ namespace RoutesREST.Controllers
 
         [Route("checkroute")]
         [HttpPut]
-        public async Task<ActionResult> CheckBypassRoute([FromBody] BypassRouteInstanceCreate bypassRouteInstance)
+        public ActionResult CheckBypassRoute([FromQuery] string bypassRouteId, [FromBody] BypassRouteInstanceCreate bypassRouteInstance)
         {
-            if (!_bypassRouteRepository.BypassRoutes.Any(r => r.Id == Guid.Parse(bypassRouteInstance.BypassRouteId)))
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!_bypassRouteRepository.BypassRoutes.Any(r => r.Id == Guid.Parse(bypassRouteId)))
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "BypassRoute with specified Id was not found");
             }
-            else if (_userManager.FindByIdAsync(bypassRouteInstance.PerformerId.ToString()).Result == null)
+            else if (userId == null)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "User with specified Id was not found");
             }
             else
             {
-                return Ok(_bypassRouteInstanceRepository.AddBypassRouteInstance(bypassRouteInstance));
+                return Ok(_bypassRouteInstanceRepository.AddBypassRouteInstance(userId, bypassRouteId, bypassRouteInstance));
+            }
+        }
+        [Route("getmyroutes")]
+        [HttpGet]
+        public async Task<IActionResult> GetMyRoutesAsync()
+        {
+            var myRoutes = await _bypassRouteInstanceRepository.GetRouteInstancesByPerformerIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            if (myRoutes == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "There's no route instances attached to you");
+            } else
+            {
+                return Ok(myRoutes);
             }
         }
     }
