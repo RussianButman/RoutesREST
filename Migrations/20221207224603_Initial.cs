@@ -31,7 +31,8 @@ namespace RoutesREST.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -60,52 +61,21 @@ namespace RoutesREST.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    FullName = table.Column<string>(type: "text", nullable: false),
-                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    RouteId = table.Column<Guid>(type: "uuid", nullable: true),
-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_BypassRoutes_RouteId",
-                        column: x => x.RouteId,
-                        principalTable: "BypassRoutes",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BypassDateTimes",
+                name: "BypassRouteInstances",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    RouteId = table.Column<Guid>(type: "uuid", nullable: true)
+                    PerformerId = table.Column<Guid>(type: "uuid", nullable: true),
+                    BeginDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndDateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    BypassRouteId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BypassDateTimes", x => x.Id);
+                    table.PrimaryKey("PK_BypassRouteInstances", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BypassDateTimes_BypassRoutes_RouteId",
-                        column: x => x.RouteId,
+                        name: "FK_BypassRouteInstances_BypassRoutes_BypassRouteId",
+                        column: x => x.BypassRouteId,
                         principalTable: "BypassRoutes",
                         principalColumn: "Id");
                 });
@@ -145,6 +115,76 @@ namespace RoutesREST.Migrations
                         name: "FK_BypassRoutePoints_BypassRoutes_RouteId",
                         column: x => x.RouteId,
                         principalTable: "BypassRoutes",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    FullName = table.Column<string>(type: "text", nullable: false),
+                    BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    RouteInstanceId = table.Column<Guid>(type: "uuid", nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: false),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_BypassRouteInstances_RouteInstanceId",
+                        column: x => x.RouteInstanceId,
+                        principalTable: "BypassRouteInstances",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BypassRoutePointDateTime",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    RoutePointId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BypassRoutePointDateTime", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BypassRoutePointDateTime_BypassRoutePoints_RoutePointId",
+                        column: x => x.RoutePointId,
+                        principalTable: "BypassRoutePoints",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BypassRoutePointLocations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Latitude = table.Column<double>(type: "double precision", nullable: false),
+                    Longitude = table.Column<double>(type: "double precision", nullable: false),
+                    BypassRoutePointId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BypassRoutePointLocations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BypassRoutePointLocations_BypassRoutePoints_BypassRoutePoin~",
+                        column: x => x.BypassRoutePointId,
+                        principalTable: "BypassRoutePoints",
                         principalColumn: "Id");
                 });
 
@@ -233,43 +273,6 @@ namespace RoutesREST.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "BypassRoutePointDateTime",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    RoutePointId = table.Column<Guid>(type: "uuid", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BypassRoutePointDateTime", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BypassRoutePointDateTime_BypassRoutePoints_RoutePointId",
-                        column: x => x.RoutePointId,
-                        principalTable: "BypassRoutePoints",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BypassRoutePointLocations",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Latitude = table.Column<double>(type: "double precision", nullable: false),
-                    Longitude = table.Column<double>(type: "double precision", nullable: false),
-                    BypassRoutePointId = table.Column<Guid>(type: "uuid", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BypassRoutePointLocations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BypassRoutePointLocations_BypassRoutePoints_BypassRoutePoin~",
-                        column: x => x.BypassRoutePointId,
-                        principalTable: "BypassRoutePoints",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -302,9 +305,9 @@ namespace RoutesREST.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_RouteId",
+                name: "IX_AspNetUsers_RouteInstanceId",
                 table: "AspNetUsers",
-                column: "RouteId",
+                column: "RouteInstanceId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -314,9 +317,9 @@ namespace RoutesREST.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_BypassDateTimes_RouteId",
-                table: "BypassDateTimes",
-                column: "RouteId");
+                name: "IX_BypassRouteInstances_BypassRouteId",
+                table: "BypassRouteInstances",
+                column: "BypassRouteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BypassRouteLocations_BypassRouteId",
@@ -360,9 +363,6 @@ namespace RoutesREST.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BypassDateTimes");
-
-            migrationBuilder.DropTable(
                 name: "BypassRouteLocations");
 
             migrationBuilder.DropTable(
@@ -379,6 +379,9 @@ namespace RoutesREST.Migrations
 
             migrationBuilder.DropTable(
                 name: "BypassRoutePoints");
+
+            migrationBuilder.DropTable(
+                name: "BypassRouteInstances");
 
             migrationBuilder.DropTable(
                 name: "BypassRoutes");

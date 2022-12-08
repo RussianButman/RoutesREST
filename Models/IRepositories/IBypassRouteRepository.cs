@@ -5,7 +5,7 @@ namespace RoutesREST.Models.IRepositories
 {
     public interface IBypassRouteRepository
     {
-        List<BypassRoute> GetAllBypassRoutes();
+        IQueryable<BypassRoute> BypassRoutes { get; }
         BypassRoute? GetBypassRouteById(Guid routeId);
         BypassRoute GetBypassRouteByPerformerName(string performerName);
         BypassRoute GetBypassRouteByLocation(BypassRouteLocation location);

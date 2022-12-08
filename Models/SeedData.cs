@@ -10,10 +10,5 @@ namespace RoutesREST.Models
             ApplicationDbContext context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             context.Database.Migrate();
         }
-
-        public static void EnsureIdentityCreated(IApplicationBuilder app)
-        {
-
-        }
     }
 }

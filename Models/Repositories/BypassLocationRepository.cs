@@ -1,4 +1,5 @@
-﻿using RoutesREST.Models.HelperEntities;
+﻿using RoutesREST.Models.Entities;
+using RoutesREST.Models.HelperEntities;
 using RoutesREST.Models.IRepositories;
 
 namespace RoutesREST.Models.Repositories
@@ -8,6 +9,8 @@ namespace RoutesREST.Models.Repositories
         private ApplicationDbContext _context;
 
         public BypassLocationRepository(ApplicationDbContext context) => _context = context;
+
+        public IQueryable<BypassRouteLocation> BypassRouteLocations => _context.BypassRouteLocations;
 
         public void AddLocation(LatLongPoint latLongPoint)
         {

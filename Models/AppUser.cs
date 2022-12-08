@@ -8,8 +8,8 @@ namespace RoutesREST.Models
     {
         public string FullName { get; set; }
         public DateOnly BirthDate { get; set; }
-        public virtual BypassRoute BypassRoute { get; set; }
-        public Guid? RouteId { get; set; }
+        public virtual BypassRouteInstance BypassRouteInstance { get; set; }
+        public Guid? RouteInstanceId { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public override string NormalizedUserName { get; set; }
         [ProtectedPersonalData]

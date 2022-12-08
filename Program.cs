@@ -36,6 +36,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IBypassRouteRepository, BypassRouteRepository>();
 builder.Services.AddTransient<IBypassRoutePointRepository, BypassRoutePointRepository>();
+builder.Services.AddTransient<IBypassRouteInstanceRepository, BypassRouteInstanceRepository>();
 // builder.Services.AddTransient<IPerformerRepository, PerformerRepository>();
 builder.Services.AddAuthentication(options =>
 {

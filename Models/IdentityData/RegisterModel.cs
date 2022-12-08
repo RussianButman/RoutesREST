@@ -16,5 +16,8 @@ namespace RoutesREST.Models.IdentityData
 
         [Required(ErrorMessage = "Fullname is required")]
         public string? FullName { get; set; }
+
+        [Required(ErrorMessage = "Phone number is required")]
+        public string? PhoneNumber { get; set; }
     }
 }

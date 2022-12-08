@@ -10,6 +10,8 @@ namespace RoutesREST.Models.Repositories
         private ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
 
+        public IQueryable<BypassRoute> BypassRoutes => _context.BypassRoutes;
+
         public BypassRouteRepository(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
@@ -65,8 +67,8 @@ namespace RoutesREST.Models.Repositories
         }
         public async Task<BypassRoute?> AssignPerformer(Guid routeId, string performerId)
         {
-            var bypassRoute = _context.BypassRoutes.FirstOrDefault(r => r.Id == routeId);
-            // var performer = _context.Performers.FirstOrDefault(p => p.Id == performerId);
+            /*var bypassRoute = _context.BypassRoutes.FirstOrDefault(r => r.Id == routeId);
+             var performer = _context.Performers.FirstOrDefault(p => p.Id == performerId);
             var performer = await _userManager.FindByIdAsync(performerId);
             if ((bypassRoute != null) && (performer != null))
             {
@@ -77,11 +79,13 @@ namespace RoutesREST.Models.Repositories
             } else
             {
                 return null;
-            }
+            }*/
+
+            return null;
         }
         public BypassRoute? CheckBypassRoute(Guid routeId)
         {
-            BypassRoute? bypassRoute = _context.BypassRoutes.FirstOrDefault(r => r.Id == routeId);
+            /*BypassRoute? bypassRoute = _context.BypassRoutes.FirstOrDefault(r => r.Id == routeId);
 
             if (bypassRoute != null)
             {
@@ -96,7 +100,9 @@ namespace RoutesREST.Models.Repositories
             else
             {
                 return null;
-            }
+            }*/
+
+            return null;
         }
     }
 }

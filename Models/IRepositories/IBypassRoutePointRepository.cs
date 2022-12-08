@@ -5,6 +5,7 @@ namespace RoutesREST.Models.IRepositories
 {
     public interface IBypassRoutePointRepository
     {
+        IQueryable<BypassRoutePoint> BypassRoutePoints { get; }
         List<BypassRoutePoint> GetBypassRoutePoints();
         BypassRoutePoint GetWalkRoutePointById(Guid id);
         List<BypassRoutePoint> GetWalkRoutePointsByRegion(LatLongPoint[] latLongPoints);

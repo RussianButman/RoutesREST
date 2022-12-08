@@ -12,7 +12,7 @@ using RoutesREST.Models;
 namespace RoutesREST.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221205115240_Initial")]
+    [Migration("20221207224603_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -173,9 +173,11 @@ namespace RoutesREST.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
@@ -193,14 +195,17 @@ namespace RoutesREST.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("NormalizedEmail")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedUserName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
                     b.Property<string>("PasswordHash")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
@@ -209,10 +214,11 @@ namespace RoutesREST.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid?>("RouteId")
+                    b.Property<Guid?>("RouteInstanceId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("SecurityStamp")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -231,7 +237,7 @@ namespace RoutesREST.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.HasIndex("RouteId")
+                    b.HasIndex("RouteInstanceId")
                         .IsUnique();
 
                     b.ToTable("AspNetUsers", (string)null);
@@ -243,6 +249,9 @@ namespace RoutesREST.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -252,23 +261,29 @@ namespace RoutesREST.Migrations
                     b.ToTable("BypassRoutes");
                 });
 
-            modelBuilder.Entity("RoutesREST.Models.Entities.BypassRouteDateTime", b =>
+            modelBuilder.Entity("RoutesREST.Models.Entities.BypassRouteInstance", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("DateTime")
+                    b.Property<DateTime>("BeginDateTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("RouteId")
+                    b.Property<Guid?>("BypassRouteId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("EndDateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("PerformerId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RouteId");
+                    b.HasIndex("BypassRouteId");
 
-                    b.ToTable("BypassDateTimes");
+                    b.ToTable("BypassRouteInstances");
                 });
 
             modelBuilder.Entity("RoutesREST.Models.Entities.BypassRouteLocation", b =>
@@ -412,18 +427,18 @@ namespace RoutesREST.Migrations
 
             modelBuilder.Entity("RoutesREST.Models.AppUser", b =>
                 {
-                    b.HasOne("RoutesREST.Models.Entities.BypassRoute", "BypassRoute")
+                    b.HasOne("RoutesREST.Models.Entities.BypassRouteInstance", "BypassRouteInstance")
                         .WithOne("Performer")
-                        .HasForeignKey("RoutesREST.Models.AppUser", "RouteId");
+                        .HasForeignKey("RoutesREST.Models.AppUser", "RouteInstanceId");
 
-                    b.Navigation("BypassRoute");
+                    b.Navigation("BypassRouteInstance");
                 });
 
-            modelBuilder.Entity("RoutesREST.Models.Entities.BypassRouteDateTime", b =>
+            modelBuilder.Entity("RoutesREST.Models.Entities.BypassRouteInstance", b =>
                 {
                     b.HasOne("RoutesREST.Models.Entities.BypassRoute", "BypassRoute")
-                        .WithMany("BypassDatetimes")
-                        .HasForeignKey("RouteId");
+                        .WithMany("BypassRouteInstances")
+                        .HasForeignKey("BypassRouteId");
 
                     b.Navigation("BypassRoute");
                 });
@@ -466,12 +481,15 @@ namespace RoutesREST.Migrations
 
             modelBuilder.Entity("RoutesREST.Models.Entities.BypassRoute", b =>
                 {
-                    b.Navigation("BypassDatetimes");
+                    b.Navigation("BypassRouteInstances");
 
                     b.Navigation("BypassRoutePoints");
 
                     b.Navigation("Location");
+                });
 
+            modelBuilder.Entity("RoutesREST.Models.Entities.BypassRouteInstance", b =>
+                {
                     b.Navigation("Performer");
                 });
 

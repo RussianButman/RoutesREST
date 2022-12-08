@@ -9,6 +9,8 @@ namespace RoutesREST.Models.Repositories
     {
         private ApplicationDbContext _context;
 
+        public IQueryable<BypassRoutePoint> BypassRoutePoints => _context.BypassRoutePoints;
+
         public BypassRoutePointRepository(ApplicationDbContext context)
         {
             _context = context;

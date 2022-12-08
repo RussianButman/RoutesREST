@@ -15,18 +15,14 @@ namespace RoutesREST.Models
         public DbSet<BypassRoutePoint> BypassRoutePoints { get; set; }
         public DbSet<BypassRouteLocation> BypassRouteLocations { get; set; }
         public DbSet<BypassRoutePointLocation> BypassRoutePointLocations { get; set; }
-        public DbSet<BypassRouteDateTime> BypassDateTimes { get; set; }
         // public DbSet<Performer> Performers { get; set; }
+        public DbSet<BypassRouteInstance> BypassRouteInstances { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BypassRoute>()
                 .HasMany<BypassRoutePoint>(r => r.BypassRoutePoints)
                 .WithOne(p => p.BypassRoute)
                 .HasForeignKey(p => p.RouteId);
-            modelBuilder.Entity<BypassRouteDateTime>()
-                .HasOne<BypassRoute>(s => s.BypassRoute)
-                .WithMany(g => g.BypassDatetimes)
-                .HasForeignKey(r => r.RouteId);
             modelBuilder.Entity<BypassRoutePointDateTime>()
                 .HasOne<BypassRoutePoint>(s => s.BypassRoutePoint)
                 .WithMany(g => g.BypassDatetimes)
@@ -40,9 +36,13 @@ namespace RoutesREST.Models
                 .WithOne(g => g.BypassRoutePoint)
                 .HasForeignKey<BypassRoutePointLocation>(l => l.BypassRoutePointId);
             modelBuilder.Entity<AppUser>()
-                .HasOne<BypassRoute>(s => s.BypassRoute)
+                .HasOne<BypassRouteInstance>(s => s.BypassRouteInstance)
                 .WithOne(g => g.Performer)
-                .HasForeignKey<AppUser>(r => r.RouteId);
+                .HasForeignKey<AppUser>(r => r.RouteInstanceId);
+            modelBuilder.Entity<BypassRouteInstance>()
+                .HasOne<BypassRoute>(r => r.BypassRoute)
+                .WithMany(r => r.BypassRouteInstances)
+                .HasForeignKey(r => r.BypassRouteId);
 
             base.OnModelCreating(modelBuilder);
         }
