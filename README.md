@@ -292,7 +292,7 @@
 
 **URL Parameters**: `routePointId` - идентификатор точки маршрута
 
-**Method**: `GET`
+**Method**: `PATCH`
 
 **Auth requires**: YES
 
@@ -359,6 +359,24 @@
 
 **Content**:
 `BypassRoute instance`
+
+## Get My Routes
+
+Получить список маршрутов текущего пользователя.
+
+**URL**: `/api/admin/getmyroutes`
+
+**Method**: `GET`
+
+**Auth requires**: YES
+
+**Permissions required**: None
+
+### Success responses
+
+**Code** `200 OK`
+
+**Content**: `BypassRouteInstance list`
 
 # AdminController
 
