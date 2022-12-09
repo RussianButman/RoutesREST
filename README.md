@@ -67,7 +67,7 @@
 
 ## Register
 
-Метод для регистрации
+Метод для регистрации пользвоателя.
 
 **URL**: `/api/account/register`
 
@@ -76,6 +76,45 @@
 **Auth requires**: NO
 
 **Permissions required**: None
+
+**Data constraints**:
+
+Нужно указать логин, пароль и ФИО.
+
+```json
+{
+ "username": "[unicode 64 chars max]",
+ "password": "[unicode 64 chars max]",
+ "fullName": "[unicode 64 chars max]",
+ "email": "[unicode 64 chars max]",
+ "phoneNumber": "[unicode 64 chars max]"
+}
+```
+
+Пример ввода данных:
+
+```json
+{
+ "username": "RussianButman",
+ "password": "passW0rd123$",
+ "fullName": "Фамилия Имя Отчество",
+ "email": "email@example.com",
+ "phoneNumber": "+79999999999"
+}
+```
+
+
+## Register Admin
+
+Метод для регистрации нового администратора. Требует прав администратора.
+
+**URL**: `/api/account/register`
+
+**Method**: `POST`
+
+**Auth requires**: YES
+
+**Permissions required**: Admin
 
 **Data constraints**:
 
@@ -299,11 +338,20 @@
 
 **URL Parameters**: `routeId` - идентификатор маршрута
 
-**Method**: `GET`
+**Method**: `PUT`
 
 **Auth requires**: YES
 
 **Permissions required**: None
+
+**Data constraints**
+
+```json
+{
+  "beginDateTime": "2022-12-09T00:31:21.272Z",
+  "endDateTime": "2022-12-09T00:31:21.272Z"
+}
+```
 
 ### Success responses
 
