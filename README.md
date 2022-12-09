@@ -460,6 +460,14 @@
 
 **Permissions required**: Admin
 
+**Data constraints**: 
+```json
+{
+  "latitude": 0,
+  "longitude": 0
+}
+```
+
 ### Success responses
 
 **Code** `200 OK`
