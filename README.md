@@ -460,7 +460,8 @@
 
 **Permissions required**: Admin
 
-**Data constraints**: 
+**Data constraints**:
+
 ```json
 {
   "latitude": 0,
